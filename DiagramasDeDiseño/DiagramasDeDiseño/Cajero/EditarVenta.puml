@@ -1,0 +1,97 @@
+
+@startuml "Editar Venta"
+
+actor Cajero
+participant Pantalla
+participant Teclado
+control TerminalDeVenta
+control SistemaDeInventario
+entity BaseDeDatos
+
+Cajero -> Pantalla : 1. Iniciar Sesión
+activate Pantalla
+
+Pantalla -> TerminalDeVenta : 2. iniciarSesion()
+activate TerminalDeVenta
+
+TerminalDeVenta -> Pantalla : 3. confirmacionAutenticacion()
+deactivate TerminalDeVenta
+Pantalla -> Cajero : 4. Confirmación Autenticación
+deactivate Pantalla
+
+Cajero -> Pantalla : 5. Acceder Historial de Transacciones
+activate Pantalla
+
+Pantalla -> TerminalDeVenta : 6. accederHistorialDeTransacciones()
+activate TerminalDeVenta
+
+TerminalDeVenta -> SistemaDeInventario : 7. obtenerListaVentas()
+activate SistemaDeInventario
+
+SistemaDeInventario -> BaseDeDatos : 8. consultarVentas()
+activate BaseDeDatos
+
+BaseDeDatos -> SistemaDeInventario : 9. enviarListaVentas(ventas)
+deactivate BaseDeDatos
+
+SistemaDeInventario -> TerminalDeVenta : 10. mostrarListaVentas(ventas)
+deactivate SistemaDeInventario
+
+TerminalDeVenta -> Pantalla : 11. Mostrar Lista Ventas
+deactivate TerminalDeVenta
+Pantalla -> Cajero : 12. Mostrar Lista Ventas
+deactivate Pantalla
+
+Cajero -> Pantalla : 13. Seleccionar Venta
+activate Pantalla
+
+Pantalla -> TerminalDeVenta : 14. seleccionarVenta(idVenta)
+activate TerminalDeVenta
+
+TerminalDeVenta -> SistemaDeInventario : 15. obtenerDetallesVenta(idVenta)
+activate SistemaDeInventario
+
+SistemaDeInventario -> BaseDeDatos : 16. consultarDetallesVenta(idVenta)
+activate BaseDeDatos
+
+BaseDeDatos -> SistemaDeInventario : 17. enviarDetallesVenta(detallesVenta)
+deactivate BaseDeDatos
+
+SistemaDeInventario -> TerminalDeVenta : 18. mostrarDetallesVenta(detallesVenta)
+deactivate SistemaDeInventario
+
+TerminalDeVenta -> Pantalla : 19. Mostrar Detalles Venta
+deactivate TerminalDeVenta
+Pantalla -> Cajero : 20. Mostrar Detalles Venta
+deactivate Pantalla
+
+Cajero -> Pantalla : 21. Modificar Detalles Venta
+activate Pantalla
+
+Pantalla -> TerminalDeVenta : 22. modificarDetallesVenta(detallesModificados)
+activate TerminalDeVenta
+
+TerminalDeVenta -> SistemaDeInventario : 23. actualizarVenta(idVenta, detallesModificados)
+activate SistemaDeInventario
+
+SistemaDeInventario -> BaseDeDatos : 24. guardarCambiosVenta(idVenta, detallesModificados)
+activate BaseDeDatos
+
+BaseDeDatos -> SistemaDeInventario : 25. confirmarActualizacionVenta()
+deactivate BaseDeDatos
+
+SistemaDeInventario -> BaseDeDatos : 26. ajustarInventario(detallesModificados)
+activate BaseDeDatos
+
+BaseDeDatos -> SistemaDeInventario : 27. confirmarAjusteInventario()
+deactivate BaseDeDatos
+
+SistemaDeInventario -> TerminalDeVenta : 28. actualizarRegistros()
+deactivate SistemaDeInventario
+
+TerminalDeVenta -> Pantalla : 29. Mostrar Mensaje("Venta editada correctamente")
+deactivate TerminalDeVenta
+Pantalla -> Cajero : 30. Mostrar Mensaje("Venta editada correctamente")
+deactivate Pantalla
+
+@enduml

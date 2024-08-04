@@ -1,0 +1,104 @@
+@startuml "Cancelar Venta"
+
+actor Cajero
+participant Pantalla
+participant Teclado
+control TerminalDeVenta
+control SistemaDeInventario
+entity BaseDeDatos
+
+Cajero -> Pantalla : 1. Iniciar Sesión
+activate Pantalla
+
+Pantalla -> TerminalDeVenta : 2. iniciarSesion()
+activate TerminalDeVenta
+
+TerminalDeVenta -> Pantalla : 3. confirmacionAutenticacion()
+deactivate TerminalDeVenta
+Pantalla -> Cajero : 4. Confirmación Autenticación
+deactivate Pantalla
+
+Cajero -> Pantalla : 5. Acceder Historial de Transacciones
+activate Pantalla
+
+Pantalla -> TerminalDeVenta : 6. accederHistorialDeTransacciones()
+activate TerminalDeVenta
+
+TerminalDeVenta -> SistemaDeInventario : 7. obtenerListaVentas()
+activate SistemaDeInventario
+
+SistemaDeInventario -> BaseDeDatos : 8. consultarVentas()
+activate BaseDeDatos
+
+BaseDeDatos -> SistemaDeInventario : 9. enviarListaVentas(ventas)
+deactivate BaseDeDatos
+
+SistemaDeInventario -> TerminalDeVenta : 10. mostrarListaVentas(ventas)
+deactivate SistemaDeInventario
+
+TerminalDeVenta -> Pantalla : 11. Mostrar Lista Ventas
+deactivate TerminalDeVenta
+Pantalla -> Cajero : 12. Mostrar Lista Ventas
+deactivate Pantalla
+
+Cajero -> Pantalla : 13. Seleccionar Venta
+activate Pantalla
+
+Pantalla -> Teclado : 14. idVenta
+activate Teclado
+
+Teclado -> TerminalDeVenta : 15. seleccionarVenta(idVenta)
+deactivate Teclado
+activate TerminalDeVenta
+
+TerminalDeVenta -> SistemaDeInventario : 16. obtenerDetallesVenta(idVenta)
+activate SistemaDeInventario
+
+SistemaDeInventario -> BaseDeDatos : 17. consultarDetallesVenta(idVenta)
+activate BaseDeDatos
+
+BaseDeDatos -> SistemaDeInventario : 18. enviarDetallesVenta(detallesVenta)
+deactivate BaseDeDatos
+
+SistemaDeInventario -> TerminalDeVenta : 19. mostrarDetallesVenta(detallesVenta)
+deactivate SistemaDeInventario
+
+TerminalDeVenta -> Pantalla : 20. Mostrar Detalles Venta
+deactivate TerminalDeVenta
+Pantalla -> Cajero : 21. Mostrar Detalles Venta
+deactivate Pantalla
+
+Cajero -> Pantalla : 22. Confirmar Cancelacion Venta
+activate Pantalla
+
+Pantalla -> Teclado : 23. idVenta
+activate Teclado
+
+Teclado -> TerminalDeVenta : 24. confirmarCancelacionVenta(idVenta)
+deactivate Teclado
+activate TerminalDeVenta
+
+TerminalDeVenta -> SistemaDeInventario : 25. cancelarVenta(idVenta)
+activate SistemaDeInventario
+
+SistemaDeInventario -> BaseDeDatos : 26. cancelarVenta(idVenta)
+activate BaseDeDatos
+
+BaseDeDatos -> SistemaDeInventario : 27. confirmarEliminacionVenta()
+deactivate BaseDeDatos
+
+SistemaDeInventario -> BaseDeDatos : 28. restablecerInventario(productosVendidos)
+activate BaseDeDatos
+
+BaseDeDatos -> SistemaDeInventario : 29. confirmarRestablecimientoInventario()
+deactivate BaseDeDatos
+
+SistemaDeInventario -> TerminalDeVenta : 30. actualizarRegistros()
+deactivate SistemaDeInventario
+
+TerminalDeVenta -> Pantalla : 31. mostrarMensaje("Venta cancelada correctamente")
+deactivate TerminalDeVenta
+Pantalla -> Cajero : 32. mostrarMensaje("Venta cancelada correctamente")
+deactivate Pantalla
+
+@enduml

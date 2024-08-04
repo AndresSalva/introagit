@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" href="/static/assets/style.css" >
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="{{ url_for('static',filename='assets/twemoji.min.js')}}"></script>
+    <title>{{ t }}</title>
+</head>
+<body class="index_page">
+    {% if 'username' in session %}
+         <span class="codepen-text"><span>Hola {{ session['username'] }}!</span></span>
+    {% endif %}
+    <header>
+        <a href="{{ url_for('listMoviesSeries') }}">
+            <img src="{{ h }}" alt="Logo" style="height: 200px;">
+        </a>
+    </header>
+    <nav>
+        
+        <a href="{{ url_for('listMoviesSeries') }}">Inicio</a> |
+        <a href="{{ url_for('searchMedia', format='movie') }}">Películas</a> |
+        <a href="{{ url_for('searchMedia', format='series') }}">Series</a> |
+        <a href="{{ url_for('sigin') }}">Registrarse</a>
+        {% if 'username'not in session %}
+        | <a href="{{ url_for('login') }}">Iniciar Sesión</a>
+        {% endif %}
+        {% if 'username' in session %}
+            | <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+        {% endif %}
+        <form action="{{ url_for('searchMedia') }}" method="get">
+            <label for="search_query">Buscar:</label>
+            <input type="text" id="search_query" name="query" placeholder="Ingrese su búsqueda">
+        </form>
+        {% if session['admin'] %}
+        <a href="{{ url_for('admin') }}">
+        <img src="../static/images/key.png" alt="llave" style="height: 50px;">
+        </a>
+        {% endif %}
+
+        {% if session['cajero'] %}
+        <a href="{{ url_for('cajero') }}">
+        <img src="../static/images/dollar.png" alt="dollar" style="height: 50px;">
+        </a>
+        {% endif %}
+
+    </nav>
+    <main>
+        <h2>Películas</h2>
+        <div class="carousel-container">
+            <div class="arrow prev">&laquo;</div>
+            <div class="carousel">
+                {% for movie in movies %}
+                    <div class="slide">
+                        <a href="{{ url_for('mediaPage', id=movie._id) }}">
+                            <img src="static/images/{{ movie._id }}" alt="{{ movie.title }}">
+                        </a>
+                        <a href="{{ url_for('mediaPage', id=movie._id) }}">
+                            <p>{{ movie.title }}</p>
+                        </a>
+                        <p>{{ movie.Rating }} ⭐</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="arrow next">&raquo;</div>
+        </div>
+        <h2>Series</h2>
+        <div class="carousel-container">
+            <div class="arrow prev">&laquo;</div>
+            <div class="carousel">
+                {% for serie in series %}
+                    <div class="slide">
+                        <a href="{{ url_for('mediaPage', id=serie._id) }}">
+                            <img src="static/images/{{ serie._id }}" alt="{{ serie.title }}">
+                        </a>
+                        <a href="{{ url_for('mediaPage', id=serie._id) }}">
+                            <p>{{ serie.title }}</p>
+                        </a>
+                        <p>{{ serie.Rating }} ⭐</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="arrow next">&raquo;</div>
+        </div>
+        {% if random_movies_1 %}
+            <h2>{{ random_genres_1 }}</h2>
+            <div class="carousel-container">
+                <div class="arrow prev">&laquo;</div>
+                <div class="carousel">
+                    {% for movie in random_movies_1 %}
+                        <div class="slide">
+                            <a href="{{ url_for('mediaPage', id=movie._id) }}">
+                                <img src="static/images/{{ movie._id }}" alt="{{ movie.title }}">
+                            </a>
+                            <a href="{{ url_for('mediaPage', id=movie._id) }}">
+                                <p>{{ movie.title }}</p>
+                            </a>
+                            <p>{{ movie.Rating }} ⭐</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="arrow next">&raquo;</div>
+            </div>
+        {% endif %}
+        {% if random_movies_2 %}
+            <h2>{{ random_genres_2 }}</h2>
+            <div class="carousel-container">
+                <div class="arrow prev">&laquo;</div>
+                <div class="carousel">
+                    {% for movie in random_movies_2 %}
+                        <div class="slide">
+                            <a href="{{ url_for('mediaPage', id=movie._id) }}">
+                                <img src="static/images/{{ movie._id }}" alt="{{ movie.title }}">
+                            </a>
+                            <a href="{{ url_for('mediaPage', id=movie._id) }}">
+                                <p>{{ movie.title }}</p>
+                            </a>
+                            <p>{{ movie.Rating }} ⭐</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="arrow next">&raquo;</div>
+            </div>
+        {% endif %}
+    </main>
+    <script>
+        // Código JavaScript para el carrusel
+        const carousels = document.querySelectorAll('.carousel');
+    
+        carousels.forEach((carousel) => {
+            const slides = carousel.querySelectorAll('.slide');
+            const prevBtn = carousel.parentElement.querySelector('.prev');
+            const nextBtn = carousel.parentElement.querySelector('.next');
+            let currentSlide = 0;
+            const slideWidth = slides[0].offsetWidth;
+    
+            function showSlide(n) {
+                currentSlide = (n + slides.length) % slides.length;
+                carousel.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+            }
+    
+            prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
+            nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
+        });
+    </script>
+</body>
+</html>

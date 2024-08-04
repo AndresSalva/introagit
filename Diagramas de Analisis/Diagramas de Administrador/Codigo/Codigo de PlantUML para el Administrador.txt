@@ -1,0 +1,76 @@
+@startuml
+left to right direction
+actor Administrador as Admin
+
+rectangle "Sistema de Gestión de Películas" {
+  Admin --> (Ver Película)
+  Admin --> (Ver Categoría)
+  Admin --> (Editar Película)
+  Admin --> (Buscar Película)
+  Admin --> (Eliminar Película)
+  Admin --> (Añadir Película)
+  Admin --> (Buscar Categoría)
+  Admin --> (Editar Categoría)
+  Admin --> (Eliminar Categoría)
+  Admin --> (Añadir Categoría)
+}
+@enduml
+
+
+@startuml
+actor Administrador
+boundary Interfaz
+control Control
+entity Entidad
+Administrador -> Interfaz: Seleccionar "Registrar Categoría"
+Interfaz -> Control: Mostrar formulario de nueva categoría
+Control -> Interfaz: Mostrar formulario
+ Administrador -> Interfaz: Completar formulario con nombre y descripción
+Interfaz -> Control: Enviar datos del formulario
+ alt Datos completos y correctos
+	Control -> Entidad: Validar datos
+	Entidad -> Control: Datos válidos
+	Control -> Entidad: Almacenar en base de datos
+	Entidad -> Control: Confirmación de almacenamiento
+	Control -> Interfaz: Mostrar "Categoría Registrada Exitosamente"
+	Control -> Interfaz: Actualizar lista de categorías
+	Interfaz -> Administrador: Confirmación y lista actualizada
+else Campos incompletos
+	Control -> Interfaz: Notificar campos incompletos
+	Interfaz -> Administrador: Notificar sobre campos incompletos
+	Administrador -> Interfaz: Completar campos faltantes
+	Interfaz -> Control: Enviar datos del formulario
+	Control -> Entidad: Validar datos
+	Entidad -> Control: Datos válidos
+	Control -> Entidad: Almacenar en base de datos
+	Entidad -> Control: Confirmación de almacenamiento
+	Control -> Interfaz: Mostrar "Categoría Registrada Exitosamente"
+	Control -> Interfaz: Actualizar lista de categorías
+	Interfaz -> Administrador: Confirmación y lista actualizada
+else Datos incorrectos
+	Control -> Interfaz: Notificar errores en los datos
+	Interfaz -> Administrador: Notificar sobre errores en los datos
+	Administrador -> Interfaz: Corregir datos erróneos
+	Interfaz -> Control: Enviar datos del formulario
+	Control -> Entidad: Validar datos
+	Entidad -> Control: Datos válidos
+	Control -> Entidad: Almacenar en base de datos
+	Entidad -> Control: Confirmación de almacenamiento
+	Control -> Interfaz: Mostrar "Categoría Registrada Exitosamente"
+	Control -> Interfaz: Actualizar lista de categorías
+	Interfaz -> Administrador: Confirmación y lista actualizada
+end
+@enduml
+
+@startuml
+actor Administrador
+boundary InterfazGestionCategorias
+control ControlCategorias
+entity CategoriaDB
+Administrador -> InterfazGestionCategorias: seleccionarVerCategorias()
+InterfazGestionCategorias -> ControlCategorias: recuperarCategorias()
+ControlCategorias -> CategoriaDB: obtenerCategorias()
+CategoriaDB -> ControlCategorias: listaCategorias
+ControlCategorias -> InterfazGestionCategorias: listaCategorias
+InterfazGestionCategorias -> Administrador: mostrarCategorias(listaCategorias)
+@enduml

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" href="/static/assets/style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interfaz de Cajero</title>
+</head>
+<body class="index_page">
+  <div class="form-container">
+    <form action="#" method="post" class="form" id="main-form">
+        <span class="heading">Bienvenido</span>
+    </form>
+  </div>
+
+  <div id="register-form" class="form-container hidden">
+      <span class="heading">Registrar Venta</span>
+      <div class="input-group">
+          <input placeholder="Nombre del Cliente" type="text" class="input" id="client-name" required>
+          <input placeholder="Número de Venta" type="number" class="input" id="sale-number" required>
+      </div>
+      <div class="seating-chart">
+          <!-- 10 rows x 10 columns of seats -->
+           <!-- FILAS Y COLUMNAS PARA LOS ASIENTOS-->
+          <div class="row">
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+          </div>
+          <div class="row">
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+          </div>
+          <div class="row">
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+          </div>
+          <div class="row">
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+          </div>
+          <div class="row">
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+          </div>
+          <div class="row">
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+          </div>
+          <div class="row">
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+          </div>
+          <div class="row">
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+          </div>
+          <div class="row">
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+          </div>
+          <div class="row">
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+          </div>
+          <div class="row">
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+            <div class="seat" onclick="toggleSeat(this)"></div>
+          </div>
+      </div>
+      <!-- ver el total acumulado de los asientos seleccionados y enviar la venta al sistema cuando se hace clic en "Enviar"-->
+      <div class="total-container">
+          Total: <span id="total">0</span> Bolivianos
+      </div>
+      <button class="action-button" type="button" onclick="submitSale()">Enviar</button>
+  </div>
+<!-- FILAS Y COLUMNAS PARA LOS ASIENTOS-->
+  <div id="delete-form" class="form-container hidden">
+    <span class="heading">Eliminar Venta</span>
+    <input placeholder="Número de Venta" type="number" class="input" id="delete-sale-number" required>
+    <button class="action-button" type="button" onclick="deleteSale()">Eliminar</button>
+</div>
+<!-- FILAS Y COLUMNAS PARA LOS ASIENTOS-->
+<div id="edit-form" class="form-container hidden">
+    <span class="heading">Editar Venta</span>
+    <input placeholder="Número de Venta" type="number" class="input" id="edit-sale-number" required>
+    <button class="action-button" type="button" onclick="loadSaleData()">Cargar Venta</button>
+</div>
+<!-- REGISTRO DE LAS VENTAS-->
+<div id="sales-records" class="form-container">
+    <span class="heading">Registros de Ventas</span>
+    <div id="sales-list">
+        <!-- Aquí se mostrarán los registros de ventas -->
+    </div>
+</div>
+</div>
+
+  <script>
+    let sales = []; // Array global para almacenar todas las ventas
+let total = 0; // Variable global para el costo total de los asientos seleccionados
+const seatCost = 20; // Costo por cada asiento seleccionado
+
+let editingSaleIndex = -1; // Índice de la venta que se está editando (si aplica)
+
+function showRegisterForm() {
+    document.getElementById('register-form').classList.remove('hidden');
+    document.getElementById('delete-form').classList.add('hidden');
+    document.getElementById('edit-form').classList.add('hidden');
+    document.getElementById('main-form').classList.add('hidden');
+}
+
+function showDeleteForm() {
+    document.getElementById('delete-form').classList.remove('hidden');
+    document.getElementById('register-form').classList.add('hidden');
+    document.getElementById('edit-form').classList.add('hidden');
+    document.getElementById('main-form').classList.add('hidden');
+}
+
+function showEditForm() {
+    document.getElementById('edit-form').classList.remove('hidden');
+    document.getElementById('register-form').classList.add('hidden');
+    document.getElementById('delete-form').classList.add('hidden');
+    document.getElementById('main-form').classList.add('hidden');
+}
+
+function toggleSeat(seat) {
+    if (seat.classList.contains('selected')) {
+        seat.classList.remove('selected');
+        total -= seatCost;
+    } else {
+        seat.classList.add('selected');
+        total += seatCost;
+    }
+    document.getElementById('total').innerText = total;
+}
+
+function submitSale() {
+    const clientName = document.getElementById('client-name').value;
+    const saleNumber = document.getElementById('sale-number').value;
+
+    const saleData = { saleNumber, clientName, total, seats: [] };
+    document.querySelectorAll('.seat.selected').forEach((seat, index) => {
+        saleData.seats.push(index);
+    });
+
+    if (editingSaleIndex >= 0) {
+        sales[editingSaleIndex] = saleData;
+        alert(`Venta N° ${saleNumber} actualizada para ${clientName} por un total de ${total} Bolivianos`);
+    } else {
+        sales.push(saleData);
+        alert(`Venta registrada para ${clientName} (Venta N° ${saleNumber}) por un total de ${total} Bolivianos`);
+    }
+    
+    // Aquí iría la lógica para enviar la información al servidor
+
+    updateSalesList();
+    resetForms();
+}
+
+function deleteSale() {
+    const saleNumber = document.getElementById('delete-sale-number').value;
+    const saleIndex = sales.findIndex(sale => sale.saleNumber === saleNumber);
+
+    if (saleIndex !== -1) {
+        const sale = sales[saleIndex];
+        sales.splice(saleIndex, 1);
+        alert(`Venta de ${sale.clientName} (Venta N° ${saleNumber}) eliminada exitosamente`);
+        updateSalesList();
+    } else {
+        alert(`No se encontró una venta con el número ${saleNumber}`);
+    }
+}
+
+function loadSaleData() {
+    const saleNumber = document.getElementById('edit-sale-number').value;
+    const saleIndex = sales.findIndex(sale => sale.saleNumber === saleNumber);
+
+    if (saleIndex !== -1) {
+        const sale = sales[saleIndex];
+        editingSaleIndex = saleIndex;
+        document.getElementById('client-name').value = sale.clientName;
+        document.getElementById('sale-number').value = sale.saleNumber;
+        total = sale.total;
+        document.getElementById('total').innerText = total;
+
+        document.querySelectorAll('.seat').forEach((seat, index) => {
+            if (sale.seats.includes(index)) {
+                seat.classList.add('selected');
+            } else {
+                seat.classList.remove('selected');
+            }
+        });
+
+        showRegisterForm();
+    } else {
+        alert(`No se encontró una venta con el número ${saleNumber}`);
+    }
+}
+
+function viewSales() {
+    updateSalesList();
+}
+
+function updateSalesList() {
+    const salesList = document.getElementById('sales-list');
+    salesList.innerHTML = '';
+
+    sales.forEach(sale => {
+        const saleItem = document.createElement('div');
+        saleItem.classList.add('sale-record');
+        saleItem.innerHTML = `
+            <span>Venta N° ${sale.saleNumber}</span>
+            <span>Cliente: ${sale.clientName}</span>
+            <span>Total: ${sale.total} Bolivianos</span>
+            <span>Asientos: ${sale.seats.length}</span>
+        `;
+        salesList.appendChild(saleItem);
+    });
+}
+
+function resetForms() {
+    document.getElementById('main-form').reset();
+    document.getElementById('register-form').reset();
+    document.getElementById('delete-form').reset();
+    document.getElementById('edit-form').reset();
+    document.getElementById('register-form').classList.add('hidden');
+    document.getElementById('delete-form').classList.add('hidden');
+    document.getElementById('edit-form').classList.add('hidden');
+    document.getElementById('main-form').classList.remove('hidden');
+    document.querySelectorAll('.seat.selected').forEach(seat => seat.classList.remove('selected'));
+    total = 0;
+    document.getElementById('total').innerText = total;
+    editingSaleIndex = -1;
+}
+  </script>
+</body>
+</html>
+
+
+
+

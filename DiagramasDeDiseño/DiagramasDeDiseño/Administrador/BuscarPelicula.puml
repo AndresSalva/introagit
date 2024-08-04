@@ -1,0 +1,42 @@
+@startuml "Buscar Película"
+
+actor Administrador
+participant Pantalla
+participant Teclado
+control InterfazBuscarPelicula
+control ControlBuscarPelicula
+entity BaseDatosPeliculas
+
+Administrador -> Pantalla : 1. Seleccionar "Buscar Película"
+activate Pantalla
+
+Pantalla -> InterfazBuscarPelicula : 2. Mostrar Campo de Búsqueda()
+activate InterfazBuscarPelicula
+
+InterfazBuscarPelicula -> Teclado : 3. Esperar Entrada de Usuario(nombrePelicula)
+activate Teclado
+
+Teclado --> InterfazBuscarPelicula : 4. Ingresar Nombre de Película(nombrePelicula)
+deactivate Teclado
+
+alt Información ingresada
+    InterfazBuscarPelicula -> ControlBuscarPelicula : 5. Buscar Película(nombrePelicula)
+    activate ControlBuscarPelicula
+
+    ControlBuscarPelicula -> BaseDatosPeliculas : 6. Buscar Película(nombrePelicula)
+    activate BaseDatosPeliculas
+
+    BaseDatosPeliculas --> ControlBuscarPelicula : 7. Resultados Búsqueda
+    deactivate BaseDatosPeliculas
+
+    ControlBuscarPelicula --> Pantalla : 8. Resultados Búsqueda(resultadosBúsqueda)
+    deactivate ControlBuscarPelicula
+else No se ingresó información
+    InterfazBuscarPelicula --> Teclado : 5. Mostrar Campo de Búsqueda()
+    deactivate InterfazBuscarPelicula
+
+    Teclado -> Administrador : 6. Esperar Entrada de Usuario(nombrePelicula)
+    activate Administrador
+end
+
+@enduml

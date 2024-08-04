@@ -1,0 +1,153 @@
+@startuml "Registrar Categoría"
+
+actor Administrador
+participant Pantalla
+participant Teclado
+control Interfaz
+control Control
+entity Entidad
+
+Administrador -> Pantalla : Seleccionar "Registrar Categoría"
+activate Pantalla
+
+Pantalla -> Interfaz : Solicitar formulario de nueva categoría
+activate Interfaz
+
+Interfaz -> Control : Mostrar formulario de nueva categoría
+activate Control
+
+Control -> Interfaz : Mostrar formulario
+deactivate Control
+
+Interfaz -> Pantalla : Mostrar formulario de nueva categoría
+deactivate Interfaz
+
+Pantalla -> Administrador : Mostrar formulario de nueva categoría
+deactivate Pantalla
+
+Administrador -> Teclado : Completar formulario con nombre y descripción
+activate Teclado
+
+Teclado -> Pantalla : Completar formulario
+deactivate Teclado
+
+Pantalla -> Interfaz : Enviar datos del formulario
+activate Pantalla
+activate Interfaz
+
+Interfaz -> Control : Enviar datos del formulario
+activate Control
+
+alt Datos completos y correctos
+    Control -> Entidad : Validar datos
+    activate Entidad
+
+    Entidad --> Control : Datos válidos
+    deactivate Entidad
+
+    Control -> Entidad : Almacenar en base de datos
+    activate Entidad
+
+    Entidad --> Control : Confirmación de almacenamiento
+    deactivate Entidad
+
+    Control -> Interfaz : Mostrar "Categoría Registrada Exitosamente"
+    deactivate Control
+
+    Interfaz -> Pantalla : Mostrar "Categoría Registrada Exitosamente"
+    deactivate Interfaz
+
+    Pantalla -> Administrador : Confirmación de registro
+    deactivate Pantalla
+
+else Campos incompletos
+    Control -> Interfaz : Notificar campos incompletos
+    deactivate Control
+
+    Interfaz -> Pantalla : Notificar sobre campos incompletos
+    deactivate Interfaz
+
+    Pantalla -> Administrador : Notificar sobre campos incompletos
+    deactivate Pantalla
+
+    Administrador -> Teclado : Completar campos faltantes
+    activate Teclado
+
+    Teclado -> Pantalla : Completar campos faltantes
+    deactivate Teclado
+
+    Pantalla -> Interfaz : Enviar datos del formulario
+    activate Pantalla
+    activate Interfaz
+
+    Interfaz -> Control : Enviar datos del formulario
+    activate Control
+
+    Control -> Entidad : Validar datos
+    activate Entidad
+
+    Entidad --> Control : Datos válidos
+    deactivate Entidad
+
+    Control -> Entidad : Almacenar en base de datos
+    activate Entidad
+
+    Entidad --> Control : Confirmación de almacenamiento
+    deactivate Entidad
+
+    Control -> Interfaz : Mostrar "Categoría Registrada Exitosamente"
+    deactivate Control
+
+    Interfaz -> Pantalla : Mostrar "Categoría Registrada Exitosamente"
+    deactivate Interfaz
+
+    Pantalla -> Administrador : Confirmación de registro
+    deactivate Pantalla
+
+else Datos incorrectos
+    Control -> Interfaz : Notificar errores en los datos
+    deactivate Control
+
+    Interfaz -> Pantalla : Notificar sobre errores en los datos
+    deactivate Interfaz
+
+    Pantalla -> Administrador : Notificar sobre errores en los datos
+    deactivate Pantalla
+
+    Administrador -> Teclado : Corregir datos erróneos
+    activate Teclado
+
+    Teclado -> Pantalla : Corregir datos erróneos
+    deactivate Teclado
+
+    Pantalla -> Interfaz : Enviar datos del formulario
+    activate Pantalla
+    activate Interfaz
+
+    Interfaz -> Control : Enviar datos del formulario
+    activate Control
+
+    Control -> Entidad : Validar datos
+    activate Entidad
+
+    Entidad --> Control : Datos válidos
+    deactivate Entidad
+
+    Control -> Entidad : Almacenar en base de datos
+    activate Entidad
+
+    Entidad --> Control : Confirmación de almacenamiento
+    deactivate Entidad
+
+    Control -> Interfaz : Mostrar "Categoría Registrada Exitosamente"
+    deactivate Control
+
+    Interfaz -> Pantalla : Mostrar "Categoría Registrada Exitosamente"
+    deactivate Interfaz
+
+    Pantalla -> Administrador : Confirmación de registro
+    deactivate Pantalla
+
+end
+
+@enduml

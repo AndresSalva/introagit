@@ -1,0 +1,65 @@
+@startuml
+actor Cliente
+participant Pantalla
+participant Teclado
+control PáginaDeRegistro
+control Sistema
+entity BaseDeDatos
+
+Cliente -> Pantalla : 1. Accede a la página de registro
+activate Pantalla
+
+Pantalla -> Cliente : 2. Solicita información (nombre completo, correo electrónico, contraseña, confirmar contraseña, campos opcionales)
+Cliente -> Teclado : 3. Ingresa nombre completo
+activate Teclado
+
+Teclado -> Pantalla : 4. Mostrar nombre completo
+deactivate Teclado
+
+Cliente -> Teclado : 5. Ingresa correo electrónico
+activate Teclado
+
+Teclado -> Pantalla : 6. Mostrar correo electrónico
+deactivate Teclado
+
+Cliente -> Teclado : 7. Ingresa contraseña
+activate Teclado
+
+Teclado -> Pantalla : 8. Mostrar contraseña
+deactivate Teclado
+
+Cliente -> Teclado : 9. Confirma contraseña
+activate Teclado
+
+Teclado -> Pantalla : 10. Mostrar confirmación de contraseña
+deactivate Teclado
+
+Cliente -> Teclado : 11. Ingresa otros campos opcionales (fecha de nacimiento, género, etc.)
+activate Teclado
+
+Teclado -> Pantalla : 12. Mostrar campos opcionales
+deactivate Teclado
+
+Cliente -> Pantalla : 13. Completa la acción "Registrarse"
+deactivate Cliente
+
+Pantalla -> Sistema : 14. Valida la información
+activate Sistema
+
+Sistema -> BaseDeDatos : 15. Consultar si el correo electrónico ya está registrado
+activate BaseDeDatos
+
+BaseDeDatos -> Sistema : 16. Confirmar correo no registrado
+deactivate BaseDeDatos
+
+Sistema -> BaseDeDatos : 17. Crea una cuenta para el cliente
+activate BaseDeDatos
+
+BaseDeDatos -> Sistema : 18. Confirmación de creación de cuenta
+deactivate BaseDeDatos
+
+Sistema -> Pantalla : 19. Redirige a la página de inicio de sesión
+deactivate Sistema
+Pantalla -> Cliente : 20. Mostrar página de inicio de sesión
+deactivate Pantalla
+@enduml

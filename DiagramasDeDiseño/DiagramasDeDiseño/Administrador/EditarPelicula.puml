@@ -1,0 +1,70 @@
+@startuml "Editar Película"
+
+actor Administrador
+participant Pantalla
+participant Teclado
+control InterfazEditarPelicula
+control ControlEditarPelicula
+entity BaseDatosPeliculas
+
+Administrador -> Pantalla : 1. Seleccionar "Editar Película"
+activate Pantalla
+
+Pantalla -> InterfazEditarPelicula : 2. Obtener Lista de Películas()
+activate InterfazEditarPelicula
+
+InterfazEditarPelicula -> BaseDatosPeliculas : 3. Obtener Lista de Películas()
+activate BaseDatosPeliculas
+
+BaseDatosPeliculas --> InterfazEditarPelicula : 4. Lista de Películas
+deactivate BaseDatosPeliculas
+
+InterfazEditarPelicula -> Pantalla : 5. Mostrar Lista de Películas(listaPeliculas)
+deactivate InterfazEditarPelicula
+
+Pantalla -> Administrador : 6. Mostrar Lista de Películas
+deactivate Pantalla
+
+Administrador -> Pantalla : 7. Seleccionar Película(peliculaSeleccionada)
+activate Pantalla
+
+Pantalla -> InterfazEditarPelicula : 8. Obtener Datos Película(peliculaSeleccionada)
+activate InterfazEditarPelicula
+
+InterfazEditarPelicula -> ControlEditarPelicula : 9. Obtener Datos Película(peliculaSeleccionada)
+activate ControlEditarPelicula
+
+ControlEditarPelicula -> InterfazEditarPelicula : 10. Datos Película
+deactivate ControlEditarPelicula
+
+InterfazEditarPelicula -> Pantalla : 11. Mostrar Datos Película
+deactivate InterfazEditarPelicula
+
+Pantalla -> Administrador : 12. Mostrar Datos Película
+deactivate Pantalla
+
+Administrador -> Teclado : 13. Modificar Datos Película(datosPeliculaModificados)
+activate Teclado
+
+Teclado -> InterfazEditarPelicula : 14. Modificar Datos Película(datosPeliculaModificados)
+activate InterfazEditarPelicula
+
+InterfazEditarPelicula -> ControlEditarPelicula : 15. Validar Datos Película(datosPeliculaModificados)
+activate ControlEditarPelicula
+
+ControlEditarPelicula -> BaseDatosPeliculas : 16. Guardar Cambios Película(datosPeliculaModificados)
+activate BaseDatosPeliculas
+
+BaseDatosPeliculas --> ControlEditarPelicula : 17. Confirmación de Edición
+deactivate BaseDatosPeliculas
+
+ControlEditarPelicula --> InterfazEditarPelicula : 18. Confirmación de Edición
+deactivate ControlEditarPelicula
+
+InterfazEditarPelicula -> Pantalla : 19. Mostrar Mensaje de Confirmación
+deactivate InterfazEditarPelicula
+
+Pantalla -> Administrador : 20. Mostrar Mensaje de Confirmación
+deactivate Pantalla
+
+@enduml

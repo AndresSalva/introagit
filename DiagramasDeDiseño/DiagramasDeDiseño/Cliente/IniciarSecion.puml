@@ -1,0 +1,71 @@
+@startuml
+actor Cliente
+participant Pantalla
+participant Teclado
+control PáginaDeInicioDeSesión
+control Sistema
+entity BaseDeDatos
+
+Cliente -> Pantalla : 1. Accede a la página de inicio de sesión
+activate Pantalla
+
+Pantalla -> Cliente : 2. Solicita nombre de usuario o correo electrónico y contraseña
+Cliente -> Teclado : 3. Ingresa nombre de usuario o correo electrónico
+activate Teclado
+
+Teclado -> Pantalla : 4. Mostrar nombre de usuario o correo electrónico
+deactivate Teclado
+
+Cliente -> Teclado : 5. Ingresa contraseña
+activate Teclado
+
+Teclado -> Pantalla : 6. Mostrar contraseña
+deactivate Teclado
+
+Cliente -> Pantalla : 7. Completa la acción "Iniciar Sesión"
+deactivate Cliente
+
+Pantalla -> Sistema : 8. Valida las credenciales
+activate Sistema
+
+Sistema -> BaseDeDatos : 9. Verifica las credenciales
+activate BaseDeDatos
+
+alt Credenciales correctas
+    BaseDeDatos -> Sistema : 10. Confirmación de credenciales correctas
+    deactivate BaseDeDatos
+
+    Sistema -> Pantalla : 11. Redirige a la página principal del sistema
+    deactivate Sistema
+    Pantalla -> Cliente : 12. Mostrar página principal del sistema
+    deactivate Pantalla
+else Credenciales incorrectas
+    BaseDeDatos -> Sistema : 10. Confirmación de credenciales incorrectas
+    deactivate BaseDeDatos
+
+    Sistema -> Pantalla : 11a. Mostrar mensaje de error (credenciales incorrectas)
+    deactivate Sistema
+    Pantalla -> Cliente : 12a. Solicitar corrección de información
+
+    Cliente -> Pantalla : 13. Hace clic en "¿Olvidaste tu contraseña?"
+    activate Pantalla
+
+    Pantalla -> Cliente : 14. Solicita dirección de correo electrónico
+    Cliente -> Teclado : 15. Ingresa dirección de correo electrónico
+    activate Teclado
+
+    Teclado -> Pantalla : 16. Mostrar dirección de correo electrónico
+    deactivate Teclado
+
+    Cliente -> Pantalla : 17. Completa la acción "Enviar"
+    deactivate Cliente
+
+    Pantalla -> Sistema : 18. Envía correo electrónico para restablecer contraseña
+    activate Sistema
+
+    Sistema -> Cliente : 19. Correo electrónico enviado
+    deactivate Sistema
+
+    Cliente -> Sistema : 20. Restablece contraseña siguiendo las instrucciones del correo electrónico
+end
+@enduml

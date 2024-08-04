@@ -1,0 +1,139 @@
+
+Código:
+
+@startuml
+left to right direction
+actor Cliente as Cliente
+
+rectangle "Sistema de Gestión de Películas" {
+  Cliente --> (Calificar Pelicula)
+  Cliente --> (Ver Categoria)
+  Cliente --> (Elegir Horario)
+  Cliente --> (Ver Cartelera Predeterminada)
+  Cliente --> (Iniciar Sesion)
+  Cliente --> (Registrarse)
+}
+@enduml
+
+@startuml "Registrarse"
+
+actor Cliente
+boundary PáginaDeRegistro
+control Sistema
+entity BaseDeDatos
+
+Cliente -> PáginaDeRegistro : 1. Accede a la página de registro
+PáginaDeRegistro -> Cliente : 2. Solicita información (nombre completo, correo electrónico, contraseña, confirmar contraseña, campos opcionales)
+Cliente -> PáginaDeRegistro : 3. Ingresa información
+Cliente -> PáginaDeRegistro : 4. Completa la acción "Registrarse"
+PáginaDeRegistro -> Sistema : 5. Valida la información
+Sistema -> BaseDeDatos : 6. Crea una cuenta para el cliente
+BaseDeDatos --> Sistema : 7. Confirmación de creación de cuenta
+Sistema -> Cliente : 8. Redirige a la página de inicio de sesión
+
+@enduml
+
+@startuml "Iniciar Sesión"
+
+actor Cliente
+boundary PáginaDeInicioDeSesión
+control Sistema
+entity BaseDeDatos
+
+Cliente -> PáginaDeInicioDeSesión : 1. Accede a la página de inicio de sesión
+PáginaDeInicioDeSesión -> Cliente : 2. Solicita nombre de usuario o correo electrónico y contraseña
+Cliente -> PáginaDeInicioDeSesión : 3. Ingresa nombre de usuario o correo electrónico y contraseña
+Cliente -> PáginaDeInicioDeSesión : 4. Completa la acción "Iniciar Sesión"
+PáginaDeInicioDeSesión -> Sistema : 5. Valida las credenciales
+Sistema -> BaseDeDatos : 6. Verifica las credenciales
+BaseDeDatos --> Sistema : 7. Confirmación de credenciales correctas
+Sistema -> Cliente : 8. Redirige a la página principal del sistema
+
+Cliente -> PáginaDeInicioDeSesión : 9. Olvida su contraseña
+PáginaDeInicioDeSesión -> Cliente : 10. Solicita dirección de correo electrónico
+Cliente -> PáginaDeInicioDeSesión : 11. Ingresa dirección de correo electrónico
+Cliente -> PáginaDeInicioDeSesión : 12. Completa la acción "Enviar"
+PáginaDeInicioDeSesión -> Sistema : 13. Envía correo electrónico para restablecer contraseña
+Sistema --> Cliente : 14. Correo electrónico enviado
+Cliente -> Sistema : 15. Restablece contraseña siguiendo las instrucciones del correo electrónico
+
+@enduml
+
+
+@startuml "Ver Cartelera Predeterminada"
+
+actor Cliente
+boundary InterfazDelSistema
+control Sistema
+entity BaseDeDatos
+
+Cliente -> InterfazDelSistema : 1. Accede a la sección de "Cartelera"
+InterfazDelSistema -> Sistema : 2. Solicita la cartelera de productos
+Sistema -> BaseDeDatos : 3. Obtiene la lista actualizada de productos
+BaseDeDatos --> Sistema : 4. Retorna la cartelera de productos
+Sistema -> InterfazDelSistema : 5. Muestra la cartelera de productos al cliente
+InterfazDelSistema -> Cliente : 6. Cliente visualiza la cartelera de productos
+
+@enduml
+
+
+@startuml "Elegir Horarios"
+
+actor Cliente
+boundary InterfazDelSistema
+control Sistema
+entity BaseDeDatos
+
+Cliente -> InterfazDelSistema : 1. Accede a la sección de "Horarios"
+InterfazDelSistema -> Sistema : 2. Solicita los horarios de actividades disponibles
+Sistema -> BaseDeDatos : 3. Obtiene la lista de actividades y sus horarios
+BaseDeDatos --> Sistema : 4. Retorna los horarios de actividades
+Sistema -> InterfazDelSistema : 5. Muestra la lista de actividades con sus horarios al cliente
+InterfazDelSistema -> Cliente : 6. Cliente examina los horarios de las actividades
+
+@enduml
+
+
+@startuml "Ver Categoría"
+
+actor Usuario
+boundary InterfazDelSistema
+control Sistema
+entity BaseDeDatos
+
+Usuario -> InterfazDelSistema : 1. Accede a la sección de "Categorías"
+InterfazDelSistema -> Sistema : 2. Solicita las categorías de películas disponibles
+Sistema -> BaseDeDatos : 3. Obtiene la lista de categorías de películas
+BaseDeDatos --> Sistema : 4. Retorna las categorías de películas
+Sistema -> InterfazDelSistema : 5. Muestra la lista de categorías de películas al usuario
+InterfazDelSistema -> Usuario : 6. Usuario examina las categorías de películas
+
+@enduml
+
+
+@startuml "Calificar Película"
+
+actor Usuario
+boundary InterfazDelSistema
+control Sistema
+entity BaseDeDatos
+
+Usuario -> InterfazDelSistema : 1. Busca la película a calificar
+InterfazDelSistema -> Sistema : 2. Solicita información de la película
+Sistema -> BaseDeDatos : 3. Obtiene información de la película
+BaseDeDatos --> Sistema : 4. Retorna la información de la película
+Sistema -> InterfazDelSistema : 5. Muestra información de la película al usuario
+Usuario -> InterfazDelSistema : 6. Selecciona la opción de "Calificar"
+InterfazDelSistema -> Usuario : 7. Presenta opciones de puntuación
+Usuario -> InterfazDelSistema : 8. Elige una puntuación de calificación
+Usuario -> InterfazDelSistema : 9. Confirma la elección
+InterfazDelSistema -> Sistema : 10. Registra la calificación en la base de datos
+Sistema -> BaseDeDatos : 11. Actualiza la calificación de la película
+InterfazDelSistema -> Usuario : 12. Confirmación de la calificación registrada
+
+Usuario -> InterfazDelSistema : 13. Decide cancelar la calificación
+InterfazDelSistema -> Usuario : 14. Presenta opción de cancelar
+Usuario -> InterfazDelSistema : 15. Selecciona la opción de cancelar
+
+@enduml
+

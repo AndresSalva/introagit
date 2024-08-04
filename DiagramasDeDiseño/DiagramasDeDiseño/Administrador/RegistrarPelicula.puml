@@ -1,0 +1,48 @@
+Registrar Pelicula:
+
+@startuml "Registrar Película"
+
+actor Administrador
+participant Pantalla
+participant Teclado
+control InterfazRegistrarPelicula
+control ControlRegistroPelicula
+entity BaseDatosPeliculas
+
+Administrador -> Pantalla : 1. Seleccionar "Registrar Película"
+activate Pantalla
+
+Pantalla -> InterfazRegistrarPelicula : 2. Mostrar Formulario de Registro
+activate InterfazRegistrarPelicula
+
+InterfazRegistrarPelicula -> Administrador : 3. Llenar Formulario(título, director, añoLanzamiento, sinopsis, género, categorías)
+deactivate InterfazRegistrarPelicula
+
+Administrador -> Teclado : 4. Ingresar datos del formulario
+activate Teclado
+
+Teclado -> Pantalla : Ingresar datos del formulario
+deactivate Teclado
+
+Pantalla -> InterfazRegistrarPelicula : 5. Validar Datos(título, director, añoLanzamiento, sinopsis, género, categorías)
+activate InterfazRegistrarPelicula
+
+InterfazRegistrarPelicula -> ControlRegistroPelicula : 6. Validar Datos(título, director, añoLanzamiento, sinopsis, género, categorías)
+activate ControlRegistroPelicula
+
+ControlRegistroPelicula -> BaseDatosPeliculas : 7. Registrar Película(título, director, añoLanzamiento, sinopsis, género, categorías)
+activate BaseDatosPeliculas
+
+BaseDatosPeliculas --> ControlRegistroPelicula : 8. Confirmación de Registro
+deactivate BaseDatosPeliculas
+
+ControlRegistroPelicula --> InterfazRegistrarPelicula : 9. Confirmación de Registro
+deactivate ControlRegistroPelicula
+
+InterfazRegistrarPelicula -> Administrador : 10. Mostrar Mensaje de Confirmación
+deactivate InterfazRegistrarPelicula
+
+InterfazRegistrarPelicula -> Administrador : 11. Actualizar Lista de Películas
+deactivate InterfazRegistrarPelicula
+
+@enduml

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" href="/static/assets/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ t }}</title>
+</head>
+<body class="admin-page">
+  <a href="{{ url_for('listMoviesSeries') }}" class="back-to-index">
+    <img src="../static/images/home.png" alt="casa" style="height: 50px;">
+  </a>
+  <div class="form-container">
+    <form action="{{ url_for('insertMedia') }}" method="post" enctype="multipart/form-data" class="form">
+        <span class="heading">Añadir media</span>
+        <div id="drop-zone"> 
+          <p id="drop-message">Añadir portada</p> 
+          <input type="file" id="file-input" accept="image/*" name="image" multiple required>
+          <div id="preview-container"></div>
+        </div>
+        
+        <input placeholder="Título" type="text" class="input" name ="title" required>
+        <textarea placeholder="Sinopsis" rows="10" cols="30" id="sinopsis" name="synopsis" class="textarea" required></textarea>
+        <select class="select" id="format" name="format" required>
+          <option value="movie">Película</option>
+          <option value="serie">Serie</option>
+        </select>
+        <select id="year" name="year" class="select" required>
+            <option value="2024">2024</option>
+            {% for y in range(2023, 1939, -1) %}
+                <option value="{{ y }}">{{ y }}</option>
+            {% endfor %}
+        </select>
+        <select id="choices-multiple-remove-button" multiple required name="genres">
+          <option value="">Agregar género</option>
+          <option value="Fantasy">Fantasía</option>
+          <option value="Musical">Musical</option>
+          <option value="War">Bélica</option>
+          <option value="Sci-Fi">Ciencia ficción</option>
+          <option value="Adventure">Aventura</option>
+          <option value="Horror">Terror</option>
+          <option value="Romance">Romance</option>
+          <option value="Family">Familiar</option>
+          <option value="Crime">Crimen</option>
+          <option value="Mystery">Misterio</option>
+          <option value="Comedy">Comedia</option>
+          <option value="Biography">Biografía</option>
+          <option value="History">Historia</option>
+          <option value="Drama">Drama</option>
+          <option value="Action">Acción</option>
+          <option value="Thriller">Thriller</option>
+        </select>
+        <div class="rate-container">
+        <div id=rate name=rate class="rate">
+            <input type="radio" id="star5" name="rate" value="5" checked/>
+            <label for="star5" title="text">5 stars</label>
+            <input type="radio" id="star4" name="rate" value="4" />
+            <label for="star4" title="text">4 stars</label>
+            <input type="radio" id="star3" name="rate" value="3" />
+            <label for="star3" title="text">3 stars</label>
+            <input type="radio" id="star2" name="rate" value="2" />
+            <label for="star2" title="text">2 stars</label>
+            <input type="radio" id="star1" name="rate" value="1" />
+            <label for="star1" title="text">1 star</label>
+        </div>
+        </div>
+        <div class="button-container">
+            <button class="send-button" type="submit">Send</button>
+
+        </div>
+      </form>
+      
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const element = document.getElementById('choices-multiple-remove-button');
+      const choices = new Choices(element, {
+        removeItemButton: true,
+        maxItemCount: 10,
+        searchResultLimit: 10,
+        renderChoiceLimit: 10
+      });
+      
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+    const starLabels = document.querySelectorAll('.rate label');
+
+    starLabels.forEach(label => {
+        label.addEventListener('click', function(event) {
+            event.preventDefault(); // Evitar el comportamiento predeterminado del evento click
+            const starId = this.getAttribute('for');
+            const starInput = document.getElementById(starId);
+            starInput.checked = true; // Marcar el radio button correspondiente como seleccionado
+        });
+    });
+});
+
+const dropZone = document.getElementById('drop-zone');
+const fileInput = document.getElementById('file-input');
+
+// Para evitar múltiples clics accidentales
+let isFileDialogOpen = false;
+
+dropZone.addEventListener('click', () => {
+  if (!isFileDialogOpen) {
+    fileInput.click();
+    isFileDialogOpen = true; // Marcar como abierto
+  }
+});
+
+fileInput.addEventListener('click', (e) => {
+  e.stopPropagation(); // Evitar la propagación del clic al drop-zone
+});
+
+fileInput.addEventListener('change', (e) => {
+  const files = e.target.files;
+  if (files.length) {
+    handleFiles(files);
+  }
+  isFileDialogOpen = false; // Resetear al cerrar el diálogo
+});
+
+dropZone.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  dropZone.classList.add('hover');
+});
+
+dropZone.addEventListener('dragleave', () => {
+  dropZone.classList.remove('hover');
+});
+
+dropZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropZone.classList.remove('hover');
+
+  const files = e.dataTransfer.files;
+  if (files.length) {
+    fileInput.files = files;
+    handleFiles(files);
+  }
+  isFileDialogOpen = false; // Resetear al cerrar el diálogo
+});
+
+function handleFiles(files) {
+  const validFiles = Array.from(files).filter(file => file.type.startsWith('image/'));
+  const previewContainer = document.getElementById('preview-container');
+  previewContainer.innerHTML = ''; // Limpiar el contenedor de vistas previas
+
+  if (validFiles.length) {
+    validFiles.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = document.createElement('img');
+        img.src = reader.result;
+        img.style.maxWidth = '200px'; // Ajusta el tamaño máximo según tus necesidades
+        img.style.maxWidth = '400px';
+        previewContainer.appendChild(img);
+      };
+      reader.readAsDataURL(file);
+    });
+  } else {
+    console.log('No se seleccionaron imágenes.');
+  }
+}
+  const Input = document.getElementById('file-input');
+  const dropMessage = document.getElementById('drop-message');
+
+  Input.addEventListener('change', function() {
+    if (Input.files.length > 0) {
+      dropMessage.style.display = 'none';  // Oculta el párrafo
+    } else {
+      dropMessage.style.display = 'block'; // Muestra el párrafo si no hay archivos seleccionados
+    }
+  });
+  </script>
+</body>
+</html>

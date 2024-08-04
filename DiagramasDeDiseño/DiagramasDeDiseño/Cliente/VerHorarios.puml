@@ -1,0 +1,35 @@
+@startuml "Elegir Horarios"
+
+actor Cliente
+participant Pantalla
+participant Teclado
+control InterfazDelSistema
+control Sistema
+entity BaseDeDatos
+
+Cliente -> Pantalla : 1. Accede a la sección de "Horarios"
+activate Pantalla
+
+Pantalla -> InterfazDelSistema : 2. Solicita los horarios de actividades disponibles
+activate InterfazDelSistema
+
+InterfazDelSistema -> Sistema : 3. Solicita los horarios de actividades disponibles
+activate Sistema
+
+Sistema -> BaseDeDatos : 4. Obtiene la lista de actividades y sus horarios
+activate BaseDeDatos
+
+BaseDeDatos -> Sistema : 5. Retorna los horarios de actividades
+deactivate BaseDeDatos
+
+Sistema -> InterfazDelSistema : 6. Muestra la lista de actividades con sus horarios
+deactivate Sistema
+
+InterfazDelSistema -> Pantalla : 7. Muestra la lista de actividades con sus horarios al cliente
+deactivate InterfazDelSistema
+
+Pantalla -> Cliente : 8. Cliente examina los horarios de las actividades
+deactivate Pantalla
+
+@enduml
+

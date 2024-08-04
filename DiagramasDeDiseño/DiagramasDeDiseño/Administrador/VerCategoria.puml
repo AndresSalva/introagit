@@ -1,0 +1,34 @@
+@startuml "Ver Categoría"
+
+actor Administrador
+participant Pantalla
+participant Teclado
+control InterfazGestionCategorias
+control ControlCategorias
+entity CategoriaDB
+
+Administrador -> Pantalla : 1. Seleccionar "Ver Categorías"
+activate Pantalla
+
+Pantalla -> InterfazGestionCategorias : 2. solicitarVerCategorias()
+activate InterfazGestionCategorias
+
+InterfazGestionCategorias -> ControlCategorias : 3. recuperarCategorias()
+activate ControlCategorias
+
+ControlCategorias -> CategoriaDB : 4. obtenerCategorias()
+activate CategoriaDB
+
+CategoriaDB --> ControlCategorias : 5. listaCategorias
+deactivate CategoriaDB
+
+ControlCategorias -> InterfazGestionCategorias : 6. listaCategorias
+deactivate ControlCategorias
+
+InterfazGestionCategorias -> Pantalla : 7. mostrarCategorias(listaCategorias)
+deactivate InterfazGestionCategorias
+
+Pantalla -> Administrador : 8. mostrarCategorias(listaCategorias)
+deactivate Pantalla
+
+@enduml

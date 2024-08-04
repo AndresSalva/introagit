@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" href="/static/assets/style.css" >
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="{{ url_for('static',filename='assets/twemoji.min.js')}}"></script>
+    <title>{{ t }}</title>
+</head>
+<body class="search_page">
+    {% if 'username' in session %}
+         <span class="codepen-text"><span>Hola {{ session['username'] }}!</span></span>
+    {% endif %}
+    <header>
+        <a href="{{ url_for('listMoviesSeries') }}">
+            <img src="{{ h }}" alt="Logo" style="height: 200px;">
+        </a>
+    </header>
+    <nav>
+    	<a href="{{ url_for('listMoviesSeries') }}">Inicio</a> |
+    	<a href="{{ url_for('searchMedia', format='movie') }}">Películas</a>|
+        <a href="{{ url_for('searchMedia', format='series') }}">Series</a>|
+    	<a href="{{ url_for('sigin') }}">Registrarse </a> 
+    	{% if 'username'not in session %}
+        | <a href="{{ url_for('login') }}">Iniciar Sesión</a>
+        {% endif %}
+        {% if 'username' in session %}
+        |
+        <a href="{{ url_for('logout') }}">Cerrar sesion</a>
+        {% endif %}
+        {% if session['admin'] %}
+        <a href="{{ url_for('admin') }}">
+        <img src="../static/images/key.png" alt="llave" style="height: 50px;">
+        </a>
+        {% endif %}
+        <br><br>
+    </nav>
+    <nav>
+        <form action="{{ url_for('searchMedia') }}" method="get" id="search-form">
+            
+            <input type="text" id="input-search" name="query" placeholder="Ingrese su búsqueda">
+            
+            <select id="select-search" name="genre">
+                <option value="">Todos los géneros</option>
+                <option value="Fantasy">Fantasía</option>
+                <option value="Musical">Musical</option>
+                <option value="War">Bélica</option>
+                <option value="Sci-Fi">Ciencia ficción</option>
+                <option value="Adventure">Aventura</option>
+                <option value="Horror">Terror</option>
+                <option value="Romance">Romance</option>
+                <option value="Family">Familiar</option>
+                <option value="Crime">Crimen</option>
+                <option value="Mystery">Misterio</option>
+                <option value="Comedy">Comedia</option>
+                <option value="Biography">Biografía</option>
+                <option value="History">Historia</option>
+                <option value="Drama">Drama</option>
+                <option value="Action">Acción</option>
+                <option value="Thriller">Thriller</option>
+
+            </select>
+            
+            <select id="select-search" name="year">
+                <option value="">Todos los años</option>
+                {% for y in range(2023, 1939, -1) %}
+                    <option value="{{ y }}">{{ y }}</option>
+                {% endfor %}
+            </select>
+            
+            <select id="select-search" name="format">
+                <option value="">Todos los formatos</option>
+                <option value="movie">Pelicula</option>
+                <option value="series">Serie</option>
+            </select>
+        </form>
+  	</nav>
+    <main>
+        <h2 style="text-align: center">Resultados de la búsqueda</h2><br>
+        {% if results[0] %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>TITULO</th>
+                        <th>FORMATO</th>
+                        <th style="width: 100px;">NOTA</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in results %}
+                        <tr>
+                            <td>
+                                <a href="{{ url_for('mediaPage', id=result._id) }}">{{ result.title }}</a>
+                            </td>
+                            <td>{{ result.format }}</td>
+                            <td class="center-text">
+                                {{ result.Rating }} ⭐
+                            </td>
+                            <td>
+                                 <a href="{{ url_for('mediaPage', id=result._id) }}">
+                                    <img src="static/images/{{ result._id }}" alt="{{ result.title }}">
+                                 </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No se encontraron resultados.</p>
+        {% endif %}
+    </main>
+    <script>
+        // Restablecer valores de los campos según los parámetros de la búsqueda
+        document.getElementById('genre').value = "{{ request.args.get('genre', '') }}";
+        document.getElementById('year').value = "{{ request.args.get('year', '') }}";
+        document.getElementById('format').value = "{{ request.args.get('format', '') }}";
+    </script>
+    <script>
+        // Función para ejecutar el formulario
+        function ejecutarFormulario() {
+            document.getElementById('search-form').submit();
+        }
+        // Asignar eventos de cambio a los desplegables
+        document.getElementById('genre').addEventListener('change', ejecutarFormulario);
+        document.getElementById('year').addEventListener('change', ejecutarFormulario);
+        document.getElementById('format').addEventListener('change', ejecutarFormulario);
+    </script>
+</body>
+</html>

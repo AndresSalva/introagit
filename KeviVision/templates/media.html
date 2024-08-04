@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/static/assets/style.css" >
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ t }}</title>
+    <style>
+        
+        .container {
+            margin: 20px auto;
+            max-width: 600px;
+            padding: 20px;
+            text-align: center;
+            background-color: #001925; 
+            border-left: 5px solid #ff7a01
+        }
+        .container img{
+            width: 200px;
+            height: 300px; /* Establece una altura fija para las imágenes */
+            object-fit: cover; /* Ajusta las imágenes dentro del espacio fijo */
+        }
+        .movie-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .movie-info {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .ratings {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .rating {
+            flex-basis: 50%;
+        }
+        .movie-image {
+            margin-bottom: 10px;
+        }
+        .movie-details {
+            background-color: #eaf3ff;
+            padding: 10px;
+            margin-top: 20px;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .btn {
+            position: relative;
+            font-size: 17px;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 1em 2.5em;
+            display: inline-block;
+            border-radius: 6em;
+            transition: all .2s;
+            border: none;
+            font-family: inherit;
+            font-weight: 500;
+            color: black;
+            background-color: white;
+        }
+
+    .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn::after {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    border-radius: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: all .4s;
+    }
+
+    .btn::after {
+    background-color: #fff;
+    }
+
+    .btn:hover::after {
+    transform: scaleX(1.4) scaleY(1.6);
+    opacity: 0;
+    }
+    .loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30vh; /* Ajusta la altura según tus necesidades */
+}
+    </style>
+</head>
+<body class="index_page">
+    {% if 'username' in session %}
+         <span class="codepen-text"><span>Hola {{ session['username'] }}!</span></span>
+    {% endif %}
+    <header>
+    	<a href="{{ url_for('listMoviesSeries') }}">
+            <img src="{{ h }}" alt="Logo" style="height: 200px;">
+        </a>
+  	</header>
+      <nav>
+        <a href="{{ url_for('listMoviesSeries') }}">Inicio</a> |
+        <a href="{{ url_for('searchMedia', format='movie') }}">Películas</a> |
+        <a href="{{ url_for('searchMedia', format='series') }}">Series</a> |
+        <a href="{{ url_for('sigin') }}">Registrarse</a> 
+        {% if 'username'not in session %}
+        | <a href="{{ url_for('login') }}">Iniciar Sesión</a>
+        {% endif %}
+        {% if 'username' in session %}
+            | <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+        {% endif %}
+        <form action="{{ url_for('searchMedia') }}" method="get">
+            <label for="search_query">Buscar:</label>
+            <input type="text" id="search_query" name="query" placeholder="Ingrese su búsqueda">
+        </form>
+        {% if session['admin'] %}
+        <a href="{{ url_for('admin') }}">
+        <img src="../static/images/key.png" alt="llave" style="height: 50px;">
+        </a>
+        {% endif %}
+
+        {% if session['cajero'] %}
+        <a href="{{ url_for('cajero') }}">
+        <img src="../static/images/dollar.png" alt="dollar" style="height: 50px;">
+        </a>
+        {% endif %}
+    </nav>
+
+    <div class="container">
+        {% if element %}
+        <h1 style="text-align: center">{{ element.title }}</h1><br>
+        <img src="static/images/{{ element._id }}" alt="{{ element.title }}" height="310px"><br>
+        <form action="{{ url_for('compra', id=element._id) }}" method="post">
+            <input type="text" name="nombre" placeholder="Nombre del cliente" required class="input">
+            <input type="number" name="nit" placeholder="NIT" required class="input">
+            <button class="btn" type="submit"> Comprar ticket
+            </button>
+        </form>
+        
+        <!-- Mensaje de compra exitosa -->
+        <div id="overlay-success"></div>
+        <div id="successMessage">
+            <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Check">
+            <h2>Compra exitosa!</h2>
+        </div>
+
+            <div class="loader" id="loader">
+              <div class="loader-square"></div>
+              <div class="loader-square"></div>
+              <div class="loader-square"></div>
+              <div class="loader-square"></div>
+              <div class="loader-square"></div>
+              <div class="loader-square"></div>
+              <div class="loader-square"></div>
+              <div class="loader-square"></div>
+            </div>
+            <div id="overlay">
+                <div class="overlay-blur"></div>
+                <div class="overlay-solid"></div>
+            </div>
+        {#
+        {% if 'username' in session %}
+        <div class="star">
+            <form action="{{ url_for('enviar_calificacion', id=element._id) }}" method="post">
+                <p class="clasificacion">
+                    <input id="radio1" type="radio" name="estrellas" value="5">
+                    <label for="radio1">⭐</label>
+                    <input id="radio2" type="radio" name="estrellas" value="4">
+                    <label for="radio2">⭐</label>
+                    <input id="radio3" type="radio" name="estrellas" value="3">
+                    <label for="radio3">⭐</label>
+                    <input id="radio4" type="radio" name="estrellas" value="2">
+                    <label for="radio4">⭐</label>
+                    <input id="radio5" type="radio" name="estrellas" value="1">
+                    <label for="radio5">⭐</label>
+
+                    <input type="submit" value="Enviar Calificación">
+                </p>
+            </form>
+        </div>
+        {% else %}
+            <p>Inicie sesión para poder calificar la {{ element.format }}</p>
+        {% endif %} #}
+        <h2>Detalles de la película</h2>
+        <p><h3>Sinopsis:</h3> {{ element.sinopsis }}</p>
+        <!-- Agrega más detalles según sea necesario -->
+        <p><h3>Año de estreno:</h3> {{ element.year }}</p>
+        <p><h3>Calificación:</h3> {{ element.Rating }} ⭐</p>
+        <p><h3>Generos:</h3></p>
+            {% for gen in element.genres %}
+              <p>{{ gen }}</p>
+             {% endfor %}
+        <br><br>
+    {% else %}
+        <p>No se encontró el elemento.</p>
+    {% endif %}
+    </div>
+
+</body>
+<script>
+    const buyButton = document.querySelector('.btn');
+    const loader = document.querySelector('.loader');
+    const overlay = document.getElementById('overlay');
+  
+    buyButton.addEventListener('click', () => {
+      loader.style.display = 'block';
+      overlay.style.display = 'block';
+      setTimeout(() => {
+        loader.style.display = 'none';
+        overlay.style.display = 'none';
+        }, 10000);
+    });
+    const successMessage = document.getElementById('successMessage');
+    const overlaySuccess = document.getElementById('overlay-success');
+
+    buyButton.addEventListener('click', () => {
+        loader.style.display = 'block';
+        overlay.style.display = 'block';
+        setTimeout(() => {
+            loader.style.display = 'none';
+            overlay.style.display = 'none';
+            overlaySuccess.style.display = 'block';
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                overlaySuccess.style.display = 'none';
+                successMessage.style.display = 'none';
+            }, 3000);
+        }, 3000);
+    });
+
+  </script>
+</html>

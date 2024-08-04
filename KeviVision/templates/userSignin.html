@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="/static/assets/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ t }}</title>
+    <style>
+        .header {
+            background-color: #00070e;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .header img {
+            height: 100px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+    
+        .form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .button {
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .error {
+            color: rgb(255, 255, 255);
+            text-align: center;
+        }
+
+        .footer {
+            background-color: #00070e;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body class="index_page">
+    <header class="header">
+        <a href="{{ url_for('listMoviesSeries') }}">
+            <img src="{{ h }}" alt="Logo" class="logo" style="height: 200px;">
+        </a>
+    </header>
+    {% if is_registered == False %}
+    <div class="form-container">
+            <h1>Registrarse</h1>
+            <form action="{{ url_for('insertUser', is_register='False') }}" method="post" class="form">
+                
+                <input type="text" id="username" name="username" placeholder="Nombre de usuario" required class="input">
+                <input type="password" id="password" name="password" placeholder="Contraseña" required class="input">
+                <div class="button-container">
+                    <button class="send-button" type="submit" value="Iniciar Sesión">Registrarse</button>
+                </div>
+            </form>
+            <br>
+            <p>¿Ya tienes una cuenta? <a href="{{ url_for('login') }}">Inicia sesión aquí</a></p>
+        </div>
+    {% endif %}
+    {% if is_registered == True %}
+        <div class="form-container">
+            <h1>Crear cuenta</h1>
+            <form action="{{ url_for('insertDataUser', is_register='True') }}" method="post" class="form">
+                <input type="text" id="name" name="name" placeholder="Nombre" required class="input">
+                <input type="email" id="email" name="email" placeholder="Correo electrónico" required class="input">
+                <div class="button-container">
+                    <button class="send-button" type="submit" value="Finalizar registro">Finalizar registro</button>
+                </div>
+            </form>
+        </div>
+    {% endif %}
+
+    <footer class="footer">
+        <p>2023 Rotten Tomatoes. Todos los derechos reservados</p>
+    </footer>
+</body>
+</html>

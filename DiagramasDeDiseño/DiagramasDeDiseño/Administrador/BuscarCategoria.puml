@@ -1,0 +1,54 @@
+@startuml "Buscar Categoría"
+
+actor Administrador
+participant Pantalla
+participant Teclado
+control InterfazGestionCategorias
+control ControlCategorias
+entity CategoriaDB
+
+Administrador -> Pantalla : 1. Seleccionar "Buscar Categoría"
+activate Pantalla
+
+Pantalla -> InterfazGestionCategorias : 2. seleccionarBuscarCategoria()
+activate InterfazGestionCategorias
+
+InterfazGestionCategorias -> Pantalla : 3. mostrarEspacioBusqueda()
+deactivate InterfazGestionCategorias
+
+Pantalla -> Administrador : 4. mostrarEspacioBusqueda()
+deactivate Pantalla
+
+Administrador -> Teclado : 5. Escribir nombre de categoría
+activate Teclado
+
+Teclado -> Pantalla : 6. nombreCategoria
+deactivate Teclado
+
+Pantalla -> InterfazGestionCategorias : 7. buscarCategoria(nombreCategoria)
+activate InterfazGestionCategorias
+
+InterfazGestionCategorias -> ControlCategorias : 8. buscarCategoria(nombreCategoria)
+activate ControlCategorias
+
+ControlCategorias -> CategoriaDB : 9. buscarCategoriaPorNombre(nombreCategoria)
+activate CategoriaDB
+
+CategoriaDB --> ControlCategorias : 10. listaCategoriasCoincidentes
+deactivate CategoriaDB
+
+ControlCategorias -> InterfazGestionCategorias : 11. listaCategoriasCoincidentes
+deactivate ControlCategorias
+
+InterfazGestionCategorias -> Pantalla : 12. mostrarCategoriasCoincidentes(listaCategoriasCoincidentes)
+deactivate InterfazGestionCategorias
+
+Pantalla -> Administrador : 13. mostrarCategoriasCoincidentes(listaCategoriasCoincidentes)
+deactivate Pantalla
+
+alt No existe la categoría buscada
+    InterfazGestionCategorias -> Pantalla : mostrarMensajeNoExisteCategoria()
+    Pantalla -> Administrador : mostrarMensajeNoExisteCategoria()
+end
+
+@enduml

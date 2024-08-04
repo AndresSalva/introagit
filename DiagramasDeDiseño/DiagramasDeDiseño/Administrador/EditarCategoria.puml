@@ -1,0 +1,91 @@
+@startuml "Editar Categoría"
+
+actor Administrador
+participant Pantalla
+participant Teclado
+control InterfazGestionCategorias
+control ControlCategorias
+entity CategoriaDB
+
+Administrador -> Pantalla : 1. Seleccionar "Editar"
+activate Pantalla
+
+Pantalla -> InterfazGestionCategorias : 2. solicitarEditar()
+activate InterfazGestionCategorias
+
+InterfazGestionCategorias -> ControlCategorias : 3. recuperarCategorias()
+activate ControlCategorias
+
+ControlCategorias -> CategoriaDB : 4. getCategorias()
+activate CategoriaDB
+
+CategoriaDB --> ControlCategorias : 5. listaCategorias
+deactivate CategoriaDB
+
+ControlCategorias -> InterfazGestionCategorias : 6. listaCategorias
+deactivate ControlCategorias
+
+InterfazGestionCategorias -> Pantalla : 7. mostrarListaCategorias(listaCategorias)
+deactivate InterfazGestionCategorias
+
+Pantalla -> Administrador : 8. mostrarListaCategorias(listaCategorias)
+deactivate Pantalla
+
+Administrador -> Pantalla : 9. Seleccionar categoría para editar
+activate Pantalla
+
+Pantalla -> InterfazGestionCategorias : 10. seleccionarCategoriaParaEditar(categoriaId)
+activate InterfazGestionCategorias
+
+InterfazGestionCategorias -> ControlCategorias : 11. recuperarCategoria(categoriaId)
+activate ControlCategorias
+
+ControlCategorias -> CategoriaDB : 12. getCategoria(categoriaId)
+activate CategoriaDB
+
+CategoriaDB --> ControlCategorias : 13. datosCategoria
+deactivate CategoriaDB
+
+ControlCategorias -> InterfazGestionCategorias : 14. datosCategoria
+deactivate ControlCategorias
+
+InterfazGestionCategorias -> Pantalla : 15. mostrarDatosCategoria(datosCategoria)
+deactivate InterfazGestionCategorias
+
+Pantalla -> Administrador : 16. mostrarDatosCategoria(datosCategoria)
+deactivate Pantalla
+
+Administrador -> Teclado : 17. Modificar detalles de la categoría
+activate Teclado
+
+Teclado -> Pantalla : 18. Ingresar nuevos datos de categoría
+deactivate Teclado
+
+Pantalla -> InterfazGestionCategorias : 19. enviarNuevosDatos(nuevosDatos)
+activate InterfazGestionCategorias
+
+InterfazGestionCategorias -> ControlCategorias : 20. actualizarCategoria(nuevosDatos)
+activate ControlCategorias
+
+ControlCategorias -> CategoriaDB : 21. updateCategoria(nuevosDatos)
+activate CategoriaDB
+
+CategoriaDB --> ControlCategorias : 22. confirmacionActualizacion
+deactivate CategoriaDB
+
+ControlCategorias -> InterfazGestionCategorias : 23. confirmacionActualizacion
+deactivate ControlCategorias
+
+InterfazGestionCategorias -> Pantalla : 24. mostrarMensajeConfirmacion()
+deactivate InterfazGestionCategorias
+
+Pantalla -> Administrador : 25. mostrarMensajeConfirmacion()
+deactivate Pantalla
+
+alt El administrador cancela la operación de editar categoría
+    Administrador -> Pantalla : Seleccionar "Cancelar"
+    Pantalla -> InterfazGestionCategorias : cancelarEditar()
+    InterfazGestionCategorias -> Administrador : mostrarMenuPrincipal()
+end
+
+@enduml

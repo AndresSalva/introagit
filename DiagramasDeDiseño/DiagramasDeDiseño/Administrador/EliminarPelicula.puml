@@ -1,0 +1,71 @@
+@startuml
+actor Administrador
+participant Pantalla
+participant Teclado
+control InterfazEliminarPelicula
+control ControlEliminarPelicula
+entity BaseDatosPeliculas
+
+Administrador -> Pantalla : 1. Seleccionar "Eliminar Película"
+activate Pantalla
+
+Pantalla -> InterfazEliminarPelicula : 2. Obtener Lista de Películas()
+activate InterfazEliminarPelicula
+
+InterfazEliminarPelicula -> BaseDatosPeliculas : 3. Obtener Lista de Películas()
+activate BaseDatosPeliculas
+
+BaseDatosPeliculas --> InterfazEliminarPelicula : 4. Lista de Películas
+deactivate BaseDatosPeliculas
+
+InterfazEliminarPelicula -> Pantalla : 5. Mostrar Lista de Películas(listaPeliculas)
+deactivate InterfazEliminarPelicula
+
+Pantalla -> Administrador : 6. Mostrar Lista de Películas
+deactivate Pantalla
+
+Administrador -> Pantalla : 7. Seleccionar Película(peliculaSeleccionada)
+activate Pantalla
+
+Pantalla -> InterfazEliminarPelicula : 8. Solicitar Confirmación de Eliminación(peliculaSeleccionada)
+activate InterfazEliminarPelicula
+
+InterfazEliminarPelicula -> ControlEliminarPelicula : 9. Solicitar Confirmación de Eliminación(peliculaSeleccionada)
+activate ControlEliminarPelicula
+
+ControlEliminarPelicula -> InterfazEliminarPelicula : 10. Confirmación de Eliminación
+deactivate ControlEliminarPelicula
+
+InterfazEliminarPelicula -> Pantalla : 11. Mostrar Confirmación de Eliminación
+deactivate InterfazEliminarPelicula
+
+Pantalla -> Administrador : 12. Mostrar Confirmación de Eliminación
+deactivate Pantalla
+
+Administrador -> Pantalla : 13. Confirmar Eliminación(peliculaSeleccionada)
+activate Pantalla
+
+Pantalla -> InterfazEliminarPelicula : 14. Confirmar Eliminación(peliculaSeleccionada)
+activate InterfazEliminarPelicula
+
+InterfazEliminarPelicula -> ControlEliminarPelicula : 15. Eliminar Película(peliculaSeleccionada)
+activate ControlEliminarPelicula
+
+ControlEliminarPelicula -> BaseDatosPeliculas : 16. Eliminar Película(peliculaSeleccionada)
+activate BaseDatosPeliculas
+
+BaseDatosPeliculas --> ControlEliminarPelicula : 17. Confirmación de Eliminación
+deactivate BaseDatosPeliculas
+
+ControlEliminarPelicula --> InterfazEliminarPelicula : 18. Confirmación de Eliminación
+deactivate ControlEliminarPelicula
+
+InterfazEliminarPelicula -> Pantalla : 19. Mostrar Mensaje de Confirmación
+deactivate InterfazEliminarPelicula
+
+Pantalla -> Administrador : 20. Mostrar Mensaje de Confirmación
+deactivate Pantalla
+
+Pantalla -> Administrador : 21. Actualizar Lista de Películas()
+deactivate Pantalla
+@enduml

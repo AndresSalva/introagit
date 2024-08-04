@@ -1,0 +1,47 @@
+@startuml "Ver Ventas Registradas"
+
+actor Cajero
+participant Pantalla
+participant Teclado
+control TerminalDeVenta
+control SistemaDeInventario
+entity BaseDeDatos
+
+Cajero -> Pantalla : 1. Iniciar Sesión
+activate Pantalla
+
+Pantalla -> TerminalDeVenta : 2. iniciarSesion()
+activate TerminalDeVenta
+
+TerminalDeVenta -> Pantalla : 3. confirmacionAutenticacion()
+deactivate TerminalDeVenta
+Pantalla -> Cajero : 4. Confirmación Autenticación
+deactivate Pantalla
+
+Cajero -> Pantalla : 5. Acceder Historial de Ventas
+activate Pantalla
+
+Pantalla -> TerminalDeVenta : 6. accederHistorialDeVentas()
+activate TerminalDeVenta
+
+TerminalDeVenta -> SistemaDeInventario : 7. obtenerListaVentas()
+activate SistemaDeInventario
+
+SistemaDeInventario -> BaseDeDatos : 8. consultarVentas()
+activate BaseDeDatos
+
+BaseDeDatos -> SistemaDeInventario : 9. enviarListaVentas(ventas)
+deactivate BaseDeDatos
+
+SistemaDeInventario -> TerminalDeVenta : 10. mostrarListaVentas(ventas)
+deactivate SistemaDeInventario
+
+TerminalDeVenta -> Pantalla : 11. Mostrar Lista Ventas
+deactivate TerminalDeVenta
+Pantalla -> Cajero : 12. Mostrar Lista Ventas
+deactivate Pantalla
+
+Cajero -> Pantalla : 13. Examinar Ventas Registradas
+activate Pantalla
+
+@enduml

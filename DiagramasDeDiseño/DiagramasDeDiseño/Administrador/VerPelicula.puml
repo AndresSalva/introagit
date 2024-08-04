@@ -1,0 +1,45 @@
+@startuml "Ver Película"
+
+actor Administrador
+participant Pantalla
+control InterfazVerPelicula
+control ControlVerPelicula
+entity BaseDatosPeliculas
+
+Administrador -> Pantalla : 1. Seleccionar "Ver Película"
+activate Pantalla
+
+Pantalla -> InterfazVerPelicula : 2. Obtener Lista de Películas()
+activate InterfazVerPelicula
+
+InterfazVerPelicula -> BaseDatosPeliculas : 3. Obtener Lista de Películas()
+activate BaseDatosPeliculas
+
+BaseDatosPeliculas --> InterfazVerPelicula : 4. Lista de Películas
+deactivate BaseDatosPeliculas
+
+InterfazVerPelicula -> Administrador : 5. Mostrar Lista de Películas(listaPeliculas)
+deactivate InterfazVerPelicula
+
+Administrador -> Pantalla : 6. Seleccionar Película(peliculaSeleccionada)
+activate Pantalla
+
+Pantalla -> InterfazVerPelicula : 7. Obtener Detalles Película(peliculaSeleccionada)
+activate InterfazVerPelicula
+
+InterfazVerPelicula -> ControlVerPelicula : 8. Obtener Detalles Película(peliculaSeleccionada)
+activate ControlVerPelicula
+
+ControlVerPelicula -> BaseDatosPeliculas : 9. Obtener Detalles Película(peliculaSeleccionada)
+activate BaseDatosPeliculas
+
+BaseDatosPeliculas --> ControlVerPelicula : 10. Detalles Película
+deactivate BaseDatosPeliculas
+
+ControlVerPelicula --> InterfazVerPelicula : 11. Detalles Película
+deactivate ControlVerPelicula
+
+InterfazVerPelicula -> Administrador : 12. Mostrar Detalles Película(detallesPelicula)
+deactivate InterfazVerPelicula
+
+@enduml

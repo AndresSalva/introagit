@@ -1,0 +1,76 @@
+@startuml "Eliminar Categoría"
+
+actor Administrador
+participant Pantalla
+participant Teclado
+control InterfazGestionCategorias
+control ControlCategorias
+entity CategoriaDB
+
+Administrador -> Pantalla : 1. Seleccionar "Eliminar Categoría"
+activate Pantalla
+
+Pantalla -> InterfazGestionCategorias : 2. solicitarEliminarCategoria()
+activate InterfazGestionCategorias
+
+InterfazGestionCategorias -> ControlCategorias : 3. recuperarCategorias()
+activate ControlCategorias
+
+ControlCategorias -> CategoriaDB : 4. getCategorias()
+activate CategoriaDB
+
+CategoriaDB --> ControlCategorias : 5. listaCategorias
+deactivate CategoriaDB
+
+ControlCategorias -> InterfazGestionCategorias : 6. listaCategorias
+deactivate ControlCategorias
+
+InterfazGestionCategorias -> Pantalla : 7. mostrarListaCategorias(listaCategorias)
+deactivate InterfazGestionCategorias
+
+Pantalla -> Administrador : 8. mostrarListaCategorias(listaCategorias)
+deactivate Pantalla
+
+Administrador -> Pantalla : 9. Seleccionar categoría para eliminar
+activate Pantalla
+
+Pantalla -> InterfazGestionCategorias : 10. seleccionarCategoriaParaEliminar(categoriaId)
+activate InterfazGestionCategorias
+
+InterfazGestionCategorias -> Pantalla : 11. mostrarPantallaConfirmacion()
+deactivate InterfazGestionCategorias
+
+Pantalla -> Administrador : 12. mostrarPantallaConfirmacion()
+deactivate Pantalla
+
+Administrador -> Pantalla : 13. Confirmar eliminación
+activate Pantalla
+
+Pantalla -> InterfazGestionCategorias : 14. confirmarEliminacion()
+activate InterfazGestionCategorias
+
+InterfazGestionCategorias -> ControlCategorias : 15. eliminarCategoria(categoriaId)
+activate ControlCategorias
+
+ControlCategorias -> CategoriaDB : 16. deleteCategoria(categoriaId)
+activate CategoriaDB
+
+CategoriaDB --> ControlCategorias : 17. confirmacionEliminacion
+deactivate CategoriaDB
+
+ControlCategorias -> InterfazGestionCategorias : 18. confirmacionEliminacion
+deactivate ControlCategorias
+
+InterfazGestionCategorias -> Pantalla : 19. mostrarMensajeEliminacionExitosa()
+deactivate InterfazGestionCategorias
+
+Pantalla -> Administrador : 20. mostrarMensajeEliminacionExitosa()
+deactivate Pantalla
+
+alt El administrador cancela la eliminación de categoría
+    Administrador -> Pantalla : Seleccionar "Cancelar"
+    Pantalla -> InterfazGestionCategorias : cancelarEliminacion()
+    InterfazGestionCategorias -> Administrador : mostrarMenuPrincipal()
+end
+
+@enduml

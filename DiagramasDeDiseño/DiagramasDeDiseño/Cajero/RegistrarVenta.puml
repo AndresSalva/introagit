@@ -1,0 +1,132 @@
+@startuml "Registrar Venta"
+
+actor Cajero
+participant Pantalla
+participant Teclado
+control TerminalDeVenta
+control SistemaDeInventario
+entity BaseDeDatos
+
+Cajero -> Pantalla : 1. Iniciar Sesión
+activate Pantalla
+
+Pantalla -> TerminalDeVenta : 2. iniciarSesion()
+activate TerminalDeVenta
+
+TerminalDeVenta -> Pantalla : 3. confirmacionAutenticacion()
+deactivate TerminalDeVenta
+Pantalla -> Cajero : 4. Confirmación Autenticación
+deactivate Pantalla
+
+Cajero -> Pantalla : 5. Escanear/Ingresar Código de Barras
+activate Pantalla
+
+Pantalla -> Teclado : 6. códigoProducto
+activate Teclado
+
+Teclado -> TerminalDeVenta : 7. escanearOIngresarCodigoDeBarras(codigoProducto)
+deactivate Teclado
+activate TerminalDeVenta
+
+TerminalDeVenta -> SistemaDeInventario : 8. buscarProducto(codigoProducto)
+activate SistemaDeInventario
+
+SistemaDeInventario -> BaseDeDatos : 9. consultarProducto(codigoProducto)
+activate BaseDeDatos
+
+BaseDeDatos -> SistemaDeInventario : 10. enviarInformacionProducto(nombre, precio, cantidadDisponible)
+deactivate BaseDeDatos
+
+SistemaDeInventario -> TerminalDeVenta : 11. mostrarInformacionProducto(nombre, precio, cantidadDisponible)
+deactivate SistemaDeInventario
+
+TerminalDeVenta -> Pantalla : 12. Mostrar Información Producto(nombre, precio, cantidadDisponible)
+deactivate TerminalDeVenta
+Pantalla -> Cajero : 13. Mostrar Información Producto
+deactivate Pantalla
+
+Cajero -> Pantalla : 14. Confirmar Cantidad
+activate Pantalla
+
+Pantalla -> Teclado : 15. cantidad
+activate Teclado
+
+Teclado -> TerminalDeVenta : 16. confirmarCantidad(cantidad)
+deactivate Teclado
+activate TerminalDeVenta
+
+TerminalDeVenta -> SistemaDeInventario : 17. actualizarCantidad(cantidad)
+activate SistemaDeInventario
+
+SistemaDeInventario -> TerminalDeVenta : 18. confirmarActualizacionCantidad()
+deactivate SistemaDeInventario
+deactivate TerminalDeVenta
+
+Pantalla -> Cajero : 19. Confirmar Cantidad
+deactivate Pantalla
+
+Cajero -> Pantalla : 20. Calcular Total
+activate Pantalla
+
+Pantalla -> TerminalDeVenta : 21. calcularTotal()
+activate TerminalDeVenta
+
+TerminalDeVenta -> SistemaDeInventario : 22. calcularTotal(precios, cantidades)
+activate SistemaDeInventario
+
+SistemaDeInventario -> TerminalDeVenta : 23. mostrarTotal(total)
+deactivate SistemaDeInventario
+
+TerminalDeVenta -> Pantalla : 24. Mostrar Total(total)
+deactivate TerminalDeVenta
+Pantalla -> Cajero : 25. Mostrar Total
+deactivate Pantalla
+
+Cajero -> Pantalla : 26. Registrar Pago
+activate Pantalla
+
+Pantalla -> Teclado : 27. metodoPago
+activate Teclado
+
+Teclado -> TerminalDeVenta : 28. registrarPago(metodoPago)
+deactivate Teclado
+activate TerminalDeVenta
+
+TerminalDeVenta -> SistemaDeInventario : 29. procesarPago(metodoPago)
+activate SistemaDeInventario
+
+SistemaDeInventario -> BaseDeDatos : 30. registrarTransaccion(productosVendidos, total, metodoPago)
+activate BaseDeDatos
+
+BaseDeDatos -> SistemaDeInventario : 31. confirmarRegistroTransaccion()
+deactivate BaseDeDatos
+
+SistemaDeInventario -> TerminalDeVenta : 32. confirmarRegistroTransaccion()
+deactivate SistemaDeInventario
+
+TerminalDeVenta -> Pantalla : 33. Generar Recibo
+deactivate TerminalDeVenta
+Pantalla -> Cajero : 34. Generar Recibo
+deactivate Pantalla
+
+Pantalla -> TerminalDeVenta : 35. actualizarInventario(productosVendidos)
+activate TerminalDeVenta
+
+TerminalDeVenta -> SistemaDeInventario : 36. actualizarInventario(productosVendidos)
+activate SistemaDeInventario
+
+SistemaDeInventario -> BaseDeDatos : 37. actualizarInventario(productosVendidos)
+activate BaseDeDatos
+
+BaseDeDatos -> SistemaDeInventario : 38. confirmarActualizacionInventario()
+deactivate BaseDeDatos
+
+SistemaDeInventario -> TerminalDeVenta : 39. confirmarActualizacionInventario()
+deactivate SistemaDeInventario
+
+TerminalDeVenta -> Pantalla : 40. mostrarMensaje("Venta registrada correctamente")
+deactivate TerminalDeVenta
+Pantalla -> Cajero : 41. mostrarMensaje("Venta registrada correctamente")
+deactivate Pantalla
+
+@enduml

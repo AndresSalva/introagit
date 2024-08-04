@@ -1,0 +1,34 @@
+@startuml "Ver Categoría"
+
+actor Usuario
+participant Pantalla
+participant Teclado
+control InterfazDelSistema
+control Sistema
+entity BaseDeDatos
+
+Usuario -> Pantalla : 1. Accede a la sección de "Categorías"
+activate Pantalla
+
+Pantalla -> InterfazDelSistema : 2. Solicita las categorías de películas disponibles
+activate InterfazDelSistema
+
+InterfazDelSistema -> Sistema : 3. Solicita las categorías de películas disponibles
+activate Sistema
+
+Sistema -> BaseDeDatos : 4. Obtiene la lista de categorías de películas
+activate BaseDeDatos
+
+BaseDeDatos --> Sistema : 5. Retorna las categorías de películas
+deactivate BaseDeDatos
+
+Sistema -> InterfazDelSistema : 6. Muestra la lista de categorías de películas
+deactivate Sistema
+
+InterfazDelSistema -> Pantalla : 7. Muestra la lista de categorías de películas al usuario
+deactivate InterfazDelSistema
+
+Pantalla -> Usuario : 8. Usuario examina las categorías de películas
+deactivate Pantalla
+
+@enduml
